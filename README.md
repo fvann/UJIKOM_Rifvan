@@ -1,2 +1,2 @@
 # UJIKOM_Rifvan
-ujikom membuat galery
+ujikom membuat aplikasi kasir
