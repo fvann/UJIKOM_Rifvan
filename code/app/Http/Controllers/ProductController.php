@@ -22,7 +22,8 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required',
-            'harga' => 'required|numeric', // Ensure harga is numeric
+            'harga' => 'required|numeric',
+            'stok' => 'required|numeric', // Ensure harga is numeric
         ]);
 
         Product::create($validatedData);

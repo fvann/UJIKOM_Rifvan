@@ -18,6 +18,7 @@
                     <tr>
                         <th scope="col" class="px-4 py-4">Nama Produk</th>
                         <th scope="col" class="px-4 py-3">Harga</th>
+                        <th scope="col" class="px-4 py-3">Stok</th>
                         <th scope="col" class="px-4 py-3">
                             Actions
                         </th>
@@ -28,6 +29,7 @@
                     <tr class="border-b dark:border-gray-700">
                         <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $product->nama }}</td>
                         <td class="px-4 py-3">{{ $product->harga }}</td>
+                        <td class="px-4 py-3">{{ $product->stok }}</td>
                         <td class="px-4 py-3 flex items-center">
                             <button id="editButton{{ $product->id }}" class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button" onclick="openEditModal('{{ $product->id }}', '{{ $product->nama }}', '{{ $product->harga }}')">
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -102,6 +104,10 @@
             <div>
                 <label for="harga" class="block text-sm font-medium text-gray-700">Harga</label>
                 <input type="number" id="harga" name="harga" autocomplete="harga" class="text-gray-700 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+            </div>
+            <div>
+                <label for="stok" class="block text-sm font-medium text-gray-700">Stok</label>
+                <input type="number" id="stok" name="stok" autocomplete="stok" class="text-gray-700 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
             </div>
             <div>
                 <button type="submit" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Submit</button>

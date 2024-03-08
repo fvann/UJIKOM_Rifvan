@@ -16,8 +16,8 @@
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-80 dark:bg-gray-800 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-4 py-4">Email</th>
-                        <th scope="col" class="px-4 py-3">Password</th>
+                        <th scope="col" class="px-4 py-4">Nama</th>
+                        <th scope="col" class="px-4 py-3">Email</th>
                         <th scope="col" class="px-4 py-3">
                             Actions
                         </th>
@@ -26,8 +26,8 @@
                 <tbody>
                     @foreach ($users as $user)
                     <tr class="border-b dark:border-gray-700">
-                        <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $user->email }}</td>
-                        <td class="px-4 py-3">{{ $user->password }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $user->name }}</td>
+                        <td class="px-4 py-3">{{ $user->email }}</td>
                         <td class="px-4 py-3 flex items-center">
                             <button id="editButton{{ $user->id }}" class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button" onclick="openEditModal('{{ $user->id }}', '{{ $user->email }}', '{{ $user->password }}')">
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

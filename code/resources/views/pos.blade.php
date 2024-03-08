@@ -11,6 +11,7 @@
             <div class="bg-gray-100 rounded-lg shadow-md p-4">
                 <h2 class="text-gray-500 text-lg font-bold mb-2">{{ $product->nama }}</h2>
                 <p class="text-gray-500">Harga: Rp{{ $product->harga }}</p>
+                <p class="text-gray-500">Stok : {{ $product->stok }}</p>
                 <!-- Form untuk menambahkan produk ke keranjang belanja -->
                 <form id="add-to-cart-form{{ $product->id }}" class="add-to-cart-form" method="POST">
                     @csrf
