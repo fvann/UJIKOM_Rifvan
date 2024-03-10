@@ -41,7 +41,8 @@ Route::put('/users/{user}', [UserController::class, 'update'])->name('users.upda
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
 // Rute untuk POS (Point of Sale)
-Route::get('/pos', [PosController::class, 'index']);
+Route::get('/pos', [PosController::class, 'index'])->name('pos');
 Route::post('/pos', [PosController::class, 'store']);
-Route::delete('/pos/{cart_item}', [PosController::class, 'destroy'])->name('cart_items.destroy');
+Route::delete('/delete/{cart_item}', [PosController::class, 'destroy'])->name('delete.cart_item');
+Route::post('/confirm-order', [PosController::class, 'confirmOrder'])->name('confirm.order');
 });

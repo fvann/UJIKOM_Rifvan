@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -99,7 +100,8 @@ class LoginRegisterController extends Controller
     {
         if(Auth::check())
         {
-            return view('dash');
+            $orders = Order::all();
+            return view('dash', compact('orders'));
         }
         
         return redirect()->route('login')

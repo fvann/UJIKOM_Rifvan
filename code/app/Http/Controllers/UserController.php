@@ -15,25 +15,16 @@ class UserController extends Controller
         return view('user', compact('users'));
     }
 
-    public function create()
-    {
-        return view('users.create');
-    }
-
     public function store(Request $request)
     {
         $request->validate([
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
         ]);
 
         User::create($request->all());
         return redirect()->route('users.index');
-    }
-
-    public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)

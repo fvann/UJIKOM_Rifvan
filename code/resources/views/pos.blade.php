@@ -34,39 +34,54 @@
         <h2 class="text-xl font-bold mb-4 text-white">Shopping Cart</h2>
         <div id="cartItemsContainer">
             @foreach ($cart_items as $cart_item)
-            <div class="bg-gray-100 rounded-lg shadow-md p-4 mt-5">
-                <p class="text-gray-700">{{ $cart_item->nama }} x {{ $cart_item->quantity }}</p>
-                <p class="text-gray-700">Rp{{ $cart_item->harga * $cart_item->quantity }}.00</p>
-                <button id="deleteButton{{ $cart_item->id }}" class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-red-500 hover:text-red-800 rounded-lg focus:outline-none dark:text-red-400 dark:hover:text-red-100" type="button" onclick="openDeleteModal('{{ $cart_item->id }}')">
-                    Delete
-                </button>
-            </div>
+                <div class="bg-gray-100 rounded-lg shadow-md p-4 mt-5">
+                    <p class="text-gray-700">{{ $cart_item->nama }} x {{ $cart_item->quantity }}</p>
+                    <p class="text-gray-700">Rp{{ $cart_item->harga * $cart_item->quantity }}.00</p>
+                    <form id="deleteForm{{ $cart_item->id }}" action="{{ route('delete.cart_item', ['cart_item' => $cart_item->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-red-700 bg-red-200 hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Delete</button>
+                    </form>                
+                </div>
             @endforeach
         </div>
         <hr class="my-4">
         <div id="totalContainer" class="flex justify-between items-center">
             <span class="text-lg font-bold text-white">Total: </span>
             <!-- Menampilkan total harga -->
-            <span id="totalPrice" class="text-lg font-bold text-white"></span>
+            <span id="totalPrice" class="text-lg font-bold text-white">Rp{{ $totalPrice }}.00</span>
         </div>
         <!-- Tombol checkout -->
-        <button onclick="checkout()" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">Checkout</button>
+        <button onclick="openModal()" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">Checkout</button>
     </div>
-</div>
+    
 </div>
 
-<div id="deleteModal" class="modal">
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <!-- Modal content -->
     <div class="modal-content">
-        <span class="close" onclick="closeModal('deleteModal')">&times;</span>
-        <h2 class="text-lg font-semibold mb-4 text-gray-700">Delete Produk</h2>
-        <p class="text-gray-700">Are you sure you want to delete this produk?</p>
-        <div class="mt-4 flex justify-end space-x-4">
-            <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" onclick="closeModal('deleteModal')">Cancel</button>
-            <form id="deleteForm" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-red-700 bg-red-200 hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Delete</button>
-            </form>
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h1 class="text-xl font-bold mb-4 text-gray-700 mt-4">Shopping Cart</h1>
+        <form id="confirmOrderForm" action="{{ route('confirm.order') }}" method="POST">
+            @csrf
+        @foreach ($cart_items as $cart_item)
+        <div class="flex justify-between">
+            <p class="text-gray-700">{{ $cart_item->nama }} x {{ $cart_item->quantity }}</p>
+            <p class="text-gray-700">Rp{{ $cart_item->harga * $cart_item->quantity }}.00</p>
+        </div>
+        <hr class="my-4">
+        @endforeach
+        <div id="totalContainer" class="flex justify-between items-center">
+            <span class="text-lg font-bold text-gray-700">Total: </span>
+            <!-- Menampilkan total harga -->
+            <span id="totalPrice" class="text-lg font-bold text-gray-700">Rp{{ $totalPrice }}.00</span>
+        </div>
+        <div class="flex justify-between">
+        <button onclick="printModal()" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">Print</button>
+            <input type="hidden" name="cart" value="{{ json_encode($cart_items) }}">
+            <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded-md">Konfirmasi</button>
+        </form>
         </div>
     </div>
 </div>
@@ -137,34 +152,39 @@
         document.getElementById('totalPrice').innerText = 'Rp' + totalPrice.toFixed(2); // Format total harga dengan 2 angka di belakang koma
     }
 
-    function checkout() {
-        // Implement checkout logic here
-        // You can send the cart data to the server for processing
-        console.log(cart);
-        // After checkout, you may want to clear the cart and update the UI accordingly
-        cart = [];
-        displayCartItems(); // Perbarui tampilan setelah checkout
-        updateCart(); // Perbarui total harga setelah checkout
+    function openModal() {
+        document.getElementById('myModal').style.display = 'block';
     }
 
-    function openDeleteModal(id) {
-        var modal = document.getElementById("deleteModal");
-        modal.style.display = "block";
-        $('#deleteForm').attr('action', '/delete/' + id); // Set action URL dynamically
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
     }
 
-    $('#deleteForm').submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                success: function(response) {
-                    // Handle success response, if needed
-                    closeModal('deleteModal');
-                }
-            });
-        });
+    function confirmOrder() {
+    // Kirim data keranjang belanja ke server menggunakan AJAX
+    fetch('/confirm-order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify(cart)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        // Tampilkan pesan sukses atau error, dan lakukan tindakan sesuai kebutuhan
+        console.log(data);
+        closeModal(); // Tutup modal setelah konfirmasi berhasil
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+        // Tampilkan pesan error kepada pengguna
+    });
+}
 </script>
 @endsection

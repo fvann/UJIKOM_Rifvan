@@ -15,10 +15,14 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->decimal('total', 10, 2);
-            $table->decimal('received_amount', 10, 2);
+            $table->unsignedBigInteger('product_id');
+            $table->integer('quantity');
+            $table->string('nama');
+            $table->decimal('harga', 10, 2);
             $table->timestamps();
+            
+            // Foreign key constraint
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

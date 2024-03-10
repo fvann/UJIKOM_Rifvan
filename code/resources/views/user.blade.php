@@ -9,7 +9,7 @@
     <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" onclick="openModal()">
-                Add Account
+                Add User
             </button>
         </div>
         <div class="overflow-x-auto">
@@ -55,7 +55,7 @@
 <div id="editModal" class="modal bg-white dark:bg-gray-800">
     <div class="modal-content dark:bg-gray-800">
         <span class="close" onclick="closeModal('editModal')">&times;</span>
-        <h2 class="text-lg font-semibold mb-4 text-gray-700">Edit Account</h2>
+        <h2 class="text-lg font-semibold mb-4 text-gray-700">Edit User</h2>
         <form id="editForm" method="POST" class="px-4 space-y-4">
             @csrf
             @method('PUT') <!-- Menggunakan metode PUT untuk pengeditan -->
@@ -79,8 +79,8 @@
 <div id="deleteModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('deleteModal')">&times;</span>
-        <h2 class="text-gray-700 text-lg font-semibold mb-4">Delete Account</h2>
-        <p class="text-gray-700">Are you sure you want to delete this account?</p>
+        <h2 class="text-gray-700 text-lg font-semibold mb-4">Delete User</h2>
+        <p class="text-gray-700">Are you sure you want to delete this user?</p>
         <div class="mt-4 flex justify-end space-x-4">
             <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" onclick="closeModal('deleteModal')">Cancel</button>
             <form id="deleteForm" method="POST">
@@ -97,6 +97,10 @@
         <span class="close" onclick="closeModal('addModal')">&times;</span>
         <form id="addForm" action="{{ route('users.store') }}" method="POST" class="px-4 py-6 space-y-4">
             @csrf
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">name</label>
+                <input type="name" id="name" name="name" autocomplete="name" class="text-gray-700 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+            </div>
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
                 <input type="email" id="email" name="email" autocomplete="email" class="text-gray-700 mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
